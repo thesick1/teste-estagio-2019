@@ -51,7 +51,7 @@ GET `https://jsonplaceholder.typicode.com/posts`
 
 ##### Listagem de posts por usuário
 
-GET `https://jsonplaceholder.typicode.com/posts/${userId}`
+GET `https://jsonplaceholder.typicode.com/users/${userId}/posts`
 
 VARIABLES
 
