@@ -19,6 +19,8 @@ Se nada for digitado, ocorre o carregamento dos posts de todos os usuários.
 
 ## Documentação da API
 
+**ATENÇÃO:** Como se trata de uma `fake` API, ela não mantém os dados, portanto todos os dados que vierem de retorno não vão conter os dados reais que foram enviados em requisições POST.
+
 -   API RESTful
 
 -   Url: `https://jsonplaceholder.typicode.com/posts`
