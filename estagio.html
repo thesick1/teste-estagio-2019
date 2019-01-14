@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="pt-BR">
+    <head>
+        <title>Post</title>
+        <meta charset="UTF-8">
+        
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>    
+                        
+            axios.get("https://jsonplaceholder.typicode.com/posts").then(function(post){
+                console.log(post.data);                                                             
+            });
+            
+            function send() {
+                document.getElementById('form').submit();
+                var user = document.querySelector("#user");
+                var title = document.querySelector("#title");
+                var body = document.querySelector("#body");
+                
+                var post = {
+                    "title" : title.value,
+                    "body" : body.value,
+                    "userId" : user.value
+                }
+                
+                var request = new XMLHttpRequest();
+                request.open('POST', 'https://jsonplaceholder.typicode.com/posts', true);
+                request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+                request.send(post);
+
+            }
+            
+            function search() {
+                cleanTimeline();
+                var valor = document.querySelector("#search");
+                if (valor.value == ""){
+                    axios.get("https://jsonplaceholder.typicode.com/posts").then(function(post){
+                         for (var i = 0; i <post.data.length; i++){ 
+                             buildPost(post.data[i]);
+                        }     
+                    });     
+                } else { axios.get("https://jsonplaceholder.typicode.com/posts?userId=" + valor.value ).then(function(post){
+                        if (post.data.length == 0){
+                            alert("User doesn't exist or cant find any post");
+                            
+                        } else{
+                            for (var i = 0; i <post.data.length; i++){
+                                buildPost(post.data[i]);
+                            }
+                        }
+                    });
+                }                                                                                                        
+            }
+
+                                                                                                             
+                                                                                                            
+            function buildPost(post) {
+                title = post.title;
+                body = post.body;
+                userId = post.userId;
+                id = post.id;
+                createHTML("h3","UserId: " +userId);
+                createHTML("h3","ID: " + id);
+                createHTML("h3", "Title:");
+                createHTML("p",title);
+                createHTML("h3","Text:");
+                createHTML("p",body);
+            }
+            
+            function createHTML (html, text){
+                var temp = document.createElement(html); // cria o html
+                var t = document.createTextNode(text); // cria o nó de texto no html
+                temp.appendChild(t); // adiciona o texto no html
+                document.getElementById("Timeline").appendChild(temp); // insere o html na div
+            }
+            
+            function cleanTimeline (){
+                var posts = document.getElementById("Timeline")
+                while (posts.firstChild) {
+                    posts.removeChild(posts.firstChild);
+                }
+            }
+            
+            function deletePost (){
+                var postId = document.querySelector("#delete");
+                axios.delete('https://jsonplaceholder.typicode.com/posts/' + postId.value, {data: postId.value});
+                alert('Post ' + postId.value + ' removido com sucesso!');
+            }
+            
+                                                                         
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5">
+                        <div class="container">
+                                <form id="form">
+                                    <h1>Send Post</h1>
+                                    <div class="form-group">
+                                    <div class="input-group mb-3">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-default">UserId</span>
+                                      </div>
+                                      <input required="required"  type="number" id="user" name="user" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                    </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                    <div class="input-group mb-3">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
+                                      </div>
+                                      <input required="required" type="text"id ="title" name="title" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                    </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                    <div class="input-group mb-3">
+                                      <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-default">Body</span>
+                                      </div>
+                                      <input required="required" type="text" id="body" name="body" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                    </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block" onclick="send();">Submit</button>
+                                </form> 
+
+                        
+                        <h1>Delete Post</h1>
+                         <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">PostId</span>
+                                  </div>
+                          <input type="number" class="form-control" id="delete" pattern="[0-9]{10}$" aria-label="Recipient's username" aria-describedby="button-addon3">
+                          <div class="input-group-append">
+                            <button class="btn btn-outline-danger" type="button" id="button-addon3" onclick="deletePost();">Delete</button>
+                          </div>
+                        </div>   
+                            
+                        <h1>Search</h1>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroup-sizing-default">UserId</span>
+                                  </div>
+                          <input type="number" class="form-control" id="search" pattern="[0-9]{10}$" aria-label="Recipient's username" aria-describedby="button-addon2">
+                          <div class="input-group-append">
+                            <button class="btn btn-outline-primary" type="button" id="button-addon2" onclick="search();">Search</button>
+                          </div>
+                        </div>
+                    </div>
+                
+
+                </div>    
+
+                <div class="col-lg-7">
+                    <h1>Posts</h1>
+                        <ul id="Timeline">
+                            
+                        </ul>
+                </div>
+            
+            </div>
+        </div>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+</html>
