@@ -1,0 +1,25 @@
+div.w3-container{
+    padding-top:50px;
+}
+
+h3 {
+    font-family: Roboto, sans-serif;
+    font-size: 20px;
+    border-top: solid 2px gray;
+}
+
+h4 {
+    font-family: Roboto, sans-serif;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+h5 {
+    font-family: Roboto, sans-serif;
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+button.btn-block{
+    margin-bottom: 7px;
+}

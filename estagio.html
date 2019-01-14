@@ -5,13 +5,10 @@
         <meta charset="UTF-8">
         
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link href="_css/style.css" rel="stylesheet">
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <script>    
-                        
-            axios.get("https://jsonplaceholder.typicode.com/posts").then(function(post){
-                console.log(post.data);                                                             
-            });
-            
+        <script> 
             function send() {
                 document.getElementById('form').submit();
                 var user = document.querySelector("#user");
@@ -32,9 +29,12 @@
             }
             
             function search() {
+                // call function to remove all old posts
                 cleanTimeline();
+                // take the user id
                 var valor = document.querySelector("#search");
-                if (valor.value == ""){
+                // if user id is empty, it will search all posts
+                if (valor.value == ""){ 
                     axios.get("https://jsonplaceholder.typicode.com/posts").then(function(post){
                          for (var i = 0; i <post.data.length; i++){ 
                              buildPost(post.data[i]);
@@ -61,18 +61,20 @@
                 userId = post.userId;
                 id = post.id;
                 createHTML("h3","UserId: " +userId);
-                createHTML("h3","ID: " + id);
-                createHTML("h3", "Title:");
-                createHTML("p",title);
-                createHTML("h3","Text:");
-                createHTML("p",body);
+                createHTML("h4","ID: " + id);
+                createHTML("h4",title);
+                createHTML("h5",body);
             }
             
             function createHTML (html, text){
-                var temp = document.createElement(html); // cria o html
-                var t = document.createTextNode(text); // cria o nó de texto no html
-                temp.appendChild(t); // adiciona o texto no html
-                document.getElementById("Timeline").appendChild(temp); // insere o html na div
+                // create the html
+                var temp = document.createElement(html);
+                 // create the text node in the html
+                var t = document.createTextNode(text);
+                // add text to the html
+                temp.appendChild(t);
+                // add html in div
+                document.getElementById("Timeline").appendChild(temp);
             }
             
             function cleanTimeline (){
@@ -92,10 +94,11 @@
         </script>
     </head>
     <body>
-        <div class="container">
+        <div class="w3-container">
             <div class="row">
                 <div class="col-lg-5">
                         <div class="container">
+                            <div style="border:2px solid gray" class="w3-panel">
                                 <form id="form">
                                     <h1>Send Post</h1>
                                     <div class="form-group">
@@ -125,29 +128,33 @@
                                     </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary btn-block" onclick="send();">Submit</button>
-                                </form> 
+                                </form>
+                            </div>
 
                         
-                        <h1>Delete Post</h1>
-                         <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroup-sizing-default">PostId</span>
-                                  </div>
-                          <input type="number" class="form-control" id="delete" pattern="[0-9]{10}$" aria-label="Recipient's username" aria-describedby="button-addon3">
-                          <div class="input-group-append">
-                            <button class="btn btn-outline-danger" type="button" id="button-addon3" onclick="deletePost();">Delete</button>
-                          </div>
-                        </div>   
-                            
-                        <h1>Search</h1>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                    <span class="input-group-text" id="inputGroup-sizing-default">UserId</span>
-                                  </div>
-                          <input type="number" class="form-control" id="search" pattern="[0-9]{10}$" aria-label="Recipient's username" aria-describedby="button-addon2">
-                          <div class="input-group-append">
-                            <button class="btn btn-outline-primary" type="button" id="button-addon2" onclick="search();">Search</button>
-                          </div>
+                        <div style="border:2px solid gray" class="w3-panel">
+                            <h1>Delete Post</h1>
+                             <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-default">PostId</span>
+                                      </div>
+                              <input type="number" class="form-control" id="delete" pattern="[0-9]{10}$" aria-label="Recipient's username" aria-describedby="button-addon3">
+                              <div class="input-group-append">
+                                <button class="btn btn-danger" type="button" id="button-addon3" onclick="deletePost();">Delete</button>
+                              </div>
+                            </div>
+                        </div>
+                        <div style="border:2px solid gray" class="w3-panel ">
+                            <h1>Search</h1>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroup-sizing-default">UserId</span>
+                                      </div>
+                              <input type="number" class="form-control" id="search" pattern="[0-9]{10}$" aria-label="Recipient's username" aria-describedby="button-addon2">
+                              <div class="input-group-append">
+                                <button class="btn btn-primary" type="button" id="button-addon2" onclick="search();">Search</button>
+                              </div>
+                            </div>
                         </div>
                     </div>
                 
@@ -155,10 +162,12 @@
                 </div>    
 
                 <div class="col-lg-7">
-                    <h1>Posts</h1>
-                        <ul id="Timeline">
-                            
-                        </ul>
+                    <div style="border:2px solid gray" class="w3-panel">
+                        <h1>Posts</h1>
+                            <ul id="Timeline">
+
+                            </ul>
+                    </div>
                 </div>
             
             </div>
